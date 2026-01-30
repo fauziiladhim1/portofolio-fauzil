@@ -69,7 +69,7 @@ export default function Navbar() {
       >
         <div className="flex items-center space-x-2 ml-4 sm:ml-10">
           <a 
-            href="/" 
+            href="/portofolio-fauzil/" 
             className="text-2xl font-bold text-white hidden sm:block hover:opacity-80 transition-opacity"
           >
             Porto

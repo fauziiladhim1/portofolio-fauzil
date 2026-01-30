@@ -140,8 +140,8 @@ export default function Home() {
                 Lihat Portofolio
               </a>
               <a 
-                href="/CV_Fauzil_Adhim.pdf" 
-                download 
+                href="/CV_Fauzil.pdf" 
+                download = "CV Fauzil Adhim.pdf"
                 className="px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest text-white border border-white/20 hover:bg-white/5 backdrop-blur-sm transition-all transform hover:-translate-y-1 active:scale-95"
               >
                 Unduh Resume
