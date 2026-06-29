@@ -7,14 +7,18 @@ const socials = [
   {
     Icon: FaInstagram,
     label: "Instagram",
-    href: "https://instagram.com/fauzil.as", // Berdasarkan username umum, sesuaikan jika berbeda
+    href: "https://instagram.com/fauzil.as",
   },
   {
     Icon: FaLinkedin,
     label: "LinkedIn",
     href: "https://www.linkedin.com/in/fauziiladhim",
   },
-  { Icon: FaGithub, label: "GitHub", href: "https://github.com/fauziiladhim1" },
+  { 
+    Icon: FaGithub, 
+    label: "GitHub", 
+    href: "https://github.com/fauziiladhim1" 
+  },
 ];
 
 const glowVariants = {
@@ -32,7 +36,6 @@ const glowVariants = {
 export default function Home() {
   const canvasRef = useRef(null);
   
-  // Roles disesuaikan dengan keahlian GIS dan Programming Anda
   const roles = useMemo(
     () => [
       "Geospatial Developer",
@@ -47,12 +50,29 @@ export default function Home() {
   const [subIndex, setSubIndex] = useState(0);
   const [deleting, setDeleting] = useState(false);
 
-  // Load Spline Scene
+  // Load Spline Scene dengan penanganan error unmount
   useEffect(() => {
+    let splineApp = null;
+
     if (canvasRef.current) {
-      const spline = new Application(canvasRef.current);
-      spline.load('https://prod.spline.design/tZcFKmyeIFClPhm1/scene.splinecode');
+      splineApp = new Application(canvasRef.current);
+      splineApp
+        .load('https://prod.spline.design/tZcFKmyeIFClPhm1/scene.splinecode')
+        .catch((err) => {
+          console.error("Spline runtime failed to load safely:", err);
+        });
     }
+
+    // Membersihkan aplikasi saat komponen tidak lagi dimuat (unmount)
+    return () => {
+      if (splineApp && typeof splineApp.dispose === "function") {
+        try {
+          splineApp.dispose();
+        } catch (e) {
+          console.warn("Spline instance disposed with warnings.");
+        }
+      }
+    };
   }, []);
 
   // Typewriter Effect Logic
@@ -92,7 +112,7 @@ export default function Home() {
         {/* Left Content */}
         <div className="flex flex-col justify-center h-full text-center lg:text-left relative py-12 lg:py-0">
           <div className="w-full lg:pr-12 mx-auto">
-            {/* Roles - Menunjukkan keahlian spesifik Geospatial */}
+            {/* Roles */}
             <motion.div
               className="mb-4 text-base sm:text-lg md:text-xl font-medium text-white tracking-[0.25em] uppercase opacity-90 min-h-[1.5em]"
               initial={{ opacity: 0, y: 10 }}
@@ -116,7 +136,7 @@ export default function Home() {
               </span>
             </motion.h1>
 
-            {/* Deskripsi disesuaikan dengan Summary CV Anda */}
+            {/* Deskripsi */}
             <motion.p
               className="mt-6 text-sm sm:text-base md:text-lg text-gray-400 max-w-xl mx-auto lg:mx-0 leading-relaxed font-light"
               initial={{ opacity: 0, y: 20 }}
@@ -139,16 +159,17 @@ export default function Home() {
               >
                 Lihat Portofolio
               </a>
+              {/* Tombol Unduh Mengarah ke File Root Public */}
               <a 
                 href="/CV_Fauzil.pdf" 
-                download = "CV Fauzil Adhim.pdf"
+                download="CV Fauzil Adhim.pdf"
                 className="px-8 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest text-white border border-white/20 hover:bg-white/5 backdrop-blur-sm transition-all transform hover:-translate-y-1 active:scale-95"
               >
                 Unduh Resume
               </a>
             </motion.div>
 
-            {/* Social Icons - Berdasarkan informasi di Header CV */}
+            {/* Social Icons */}
             <div className="mt-12 flex gap-7 text-xl md:text-2xl justify-center lg:justify-start">
               {socials.map(({ Icon, label, href }) => (
                 <motion.a
